@@ -330,6 +330,50 @@ def test_saved_query_before_update_syncs_dependent_slice_perms(app: Any) -> None
         db.session.rollback()
 
 
+def test_saved_query_before_update_syncs_perms_when_database_changes(
+    app: Any,
+) -> None:
+    """Moving a saved query to a different database re-copies the new
+    database's name into dependent charts' perm/schema_perm, which only works
+    when ``before_update`` reloads ``database`` from the changed ``db_id``.
+    """
+    from superset.extensions import db
+    from superset.models.core import Database
+    from superset.models.slice import Slice
+    from superset.utils.core import DatasourceType
+
+    database_a = Database(database_name="move_db_a", sqlalchemy_uri="sqlite://")
+    database_b = Database(database_name="move_db_b", sqlalchemy_uri="sqlite://")
+    saved_query = SavedQuery(label="Move Query", schema="s1", database=database_a)
+
+    db.session.add_all([database_a, database_b, saved_query])
+    db.session.flush()
+
+    chart = Slice(
+        slice_name="On the moving saved query",
+        datasource_type=DatasourceType.SAVEDQUERY,
+        datasource_id=saved_query.id,
+        datasource_name="Move Query",
+        viz_type="table",
+        params="{}",
+    )
+    db.session.add(chart)
+    db.session.flush()
+
+    try:
+        assert "move_db_a" in chart.perm
+
+        saved_query.db_id = database_b.id
+        db.session.flush()
+        db.session.expire(chart)
+
+        assert "move_db_b" in chart.perm
+        assert "move_db_a" not in chart.perm
+        assert "move_db_b" in (chart.schema_perm or "")
+    finally:
+        db.session.rollback()
+
+
 def test_adhoc_column_to_sqla_applies_time_grain_for_unsaved_dataset() -> None:
     """
     Selecting a time grain on a chart backed by an unsaved SQL Lab query must
