@@ -1,0 +1,31 @@
+{
+    "token": {
+        "brandAppName": "Superset",
+        "brandLogoAlt": "Apache Superset",
+        "brandLogoUrl": "/static/assets/images/superset-logo-horiz.png",
+        "brandLogoMargin": "18px 0",
+        "brandLogoHref": "/dashboard/list/",
+        "brandLogoHeight": "24px",
+        "brandSpinnerUrl": null,
+        "brandSpinnerSvg": null,
+        "colorPrimary": "#2893B3",
+        "colorLink": "#2893B3",
+        "colorError": "#e04355",
+        "colorWarning": "#fcc700",
+        "colorSuccess": "#5ac189",
+        "colorInfo": "#66bcfe",
+        "fontUrls": [],
+        "fontFamily": "Inter, Helvetica, Arial, sans-serif",
+        "fontFamilyCode": "'IBM Plex Mono', 'Courier New', monospace",
+        "transitionTiming": 0.3,
+        "brandIconMaxWidth": 37,
+        "fontSizeXS": "8",
+        "fontSizeXXL": "28",
+        "fontWeightNormal": "400",
+        "fontWeightLight": "300",
+        "fontWeightStrong": "500",
+        "fontWeightBold": "700",
+        "colorEditorSelection": "#fff5cf"
+    },
+    "algorithm": "default"
+}

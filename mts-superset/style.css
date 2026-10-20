@@ -1,0 +1,896 @@
+:root,
+.dashboard,
+body {
+    --navy: #0A2240;
+    --navy-mid: #0D2D55;
+    --cyan: #00B4D8;
+    --cyan-light: rgba(0, 180, 216, .15);
+    --green: #00C896;
+    --green-light: rgba(0, 200, 150, .15);
+    --red: #E53935;
+    --amber: #FB8C00;
+    --bg: #EEF1F5;
+    --card: #FFFFFF;
+    --border: #DCE3EC;
+    --text: #0A2240;
+    --muted: #6B7E96;
+    --pill-bg: #E4E9F0;
+    --kpi-bg: #F7F9FB;
+    --chartbox-bg: #FAFBFC;
+    --row-line: #EEF1F5;
+    --total-bg: #F5F7FA;
+    --blue: #1B6FC9;
+    --sub-gray: #5A6B7D;
+    --font: 'Segoe UI', Arial, sans-serif;
+}
+
+/* ===== Base ===== */
+.dashboard,
+.dashboard-content,
+[data-test="dashboard-content-wrapper"] {
+    font-family: var(--font) !important;
+    background: var(--bg) !important;
+    color: var(--text);
+    font-size: 12px;
+}
+
+.filter-counts,
+.superset-button-link,
+.dashboard-component-tabs>.ant-tabs>.ant-tabs-nav,
+.ant-dropdown-menu-submenu-title {
+    display: none !important;
+}
+
+/* Contenedor centrado: solo max-width (Superset mide este ancho) */
+.dashboard .grid-container,
+.dashboard-content .grid-container {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    max-width: min(1400px, calc(100% - 48px)) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* ===== Pill de título de sección (componente Header) ===== */
+.dashboard-component-header,
+.dashboard-component-header.background--white,
+.dashboard-component-header.background--transparent {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 20px 0 16px !important;
+    margin: 0 !important;
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+}
+
+.dashboard-component-header .editable-title,
+.dashboard-component-header .editable-title input,
+.dashboard-component-header .editable-title span {
+    background: var(--pill-bg) !important;
+    color: var(--navy) !important;
+    font-family: var(--font) !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    letter-spacing: .2px !important;
+    line-height: 1.3 !important;
+    border: none !important;
+    border-radius: 20px !important;
+    width: max-content !important;
+    max-width: 100%;
+}
+
+.dashboard-component-header .editable-title {
+    padding: 9px 26px !important;
+    display: inline-block !important;
+}
+
+.dashboard-component-header .editable-title span,
+.dashboard-component-header .editable-title input {
+    padding: 0 !important;
+}
+
+/* ===== TAB = UNA sola tarjeta (capítulo) =====
+   El padding horizontal se simula con box-shadow para no alterar el ancho que mide Superset */
+.dashboard-component-tabs {
+    background: var(--card) !important;
+    border: none !important;
+    border-radius: 2px !important;
+    box-shadow: 0 0 0 16px var(--card), 0 0 0 17px var(--border) !important;
+    padding: 0 !important;
+    margin: 16px 0 34px !important;
+    overflow: visible !important;
+}
+
+/* Todo lo interno de la tab sin fondo ni bordes propios */
+.dashboard-component-tabs .ant-tabs,
+.dashboard-component-tabs .ant-tabs-content-holder,
+.dashboard-component-tabs .ant-tabs-content,
+.dashboard-component-tabs .ant-tabs-tabpane,
+.dashboard-component-tabs-content,
+.dashboard-component-tabs .background--white:not(.dashboard-component-chart-holder) {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+}
+
+.dashboard-component-tabs .ant-tabs-tabpane,
+.dashboard-component-tabs-content {
+    padding: 0 !important;
+}
+
+/* Filas dentro de la tab: transparentes, solo separación */
+.dashboard-component-tabs .grid-row {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    margin: 0 0 12px !important;
+}
+
+.dashboard-component-tabs .grid-row:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Headers dentro de una tab (ej. "Preventivos" / "Correctivos") más compactos */
+.dashboard-component-tabs .dashboard-component-header {
+    padding: 6px 0 10px !important;
+}
+
+/* Filas sueltas (fuera de tabs y de columnas) siguen como tarjeta */
+.grid-row:not(.dashboard-component-tabs .grid-row):not(.grid-column .grid-row) {
+    background: var(--card) !important;
+    border-radius: 2px !important;
+    box-shadow: 0 0 0 16px var(--card), 0 0 0 17px var(--border) !important;
+    margin: 16px 0 34px !important;
+}
+
+/* ===== Chart box ===== */
+.dashboard-component-chart-holder {
+    background: var(--chartbox-bg) !important;
+    border: none !important;
+    box-shadow: 0 0 0 1px var(--border) !important;
+    border-radius: 6px !important;
+    font-family: var(--font) !important;
+    overflow: visible !important;
+}
+
+.dashboard-component-chart-holder .chart-header,
+.dashboard-component-chart-holder [data-test="slice-header"] {
+    justify-content: center !important;
+    text-align: center !important;
+}
+
+.dashboard-component-chart-holder .header-title,
+.dashboard-component-chart-holder [data-test="slice-header"] .header-title {
+    color: var(--muted) !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: .4px !important;
+    text-transform: uppercase !important;
+}
+
+/* ===== KPI (Big Number) estilo tarjeta ===== */
+.dashboard-component-chart-holder:has(.superset-legacy-chart-big-number) {
+    background: var(--kpi-bg) !important;
+    box-shadow: 0 0 0 1px var(--border) !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+}
+
+.superset-legacy-chart-big-number {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    height: 100% !important;
+    padding: 0 !important;
+}
+
+.superset-legacy-chart-big-number .header-line {
+    font-family: var(--font) !important;
+    font-size: 32px !important;
+    font-weight: 800 !important;
+    color: var(--navy) !important;
+    line-height: 1.1 !important;
+    height: auto !important;
+    padding: 0 !important;
+}
+
+.superset-legacy-chart-big-number .subheader-line,
+.superset-legacy-chart-big-number .kicker {
+    font-size: 11.5px !important;
+    height: auto !important;
+    color: var(--muted) !important;
+    text-transform: uppercase !important;
+    letter-spacing: .4px !important;
+    padding: 2px 0 0 !important;
+}
+
+/* Título del KPI debajo del valor */
+.chart-slice:has(.superset-legacy-chart-big-number) {
+    display: flex !important;
+    flex-direction: column-reverse !important;
+    justify-content: center !important;
+}
+
+.chart-slice:has(.superset-legacy-chart-big-number) .chart-header,
+.chart-slice:has(.superset-legacy-chart-big-number) [data-test="slice-header"] {
+    margin: 0 !important;
+}
+
+.chart-slice:has(.superset-legacy-chart-big-number) .header-title {
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    color: var(--muted) !important;
+    letter-spacing: .4px !important;
+}
+
+/* Markdown */
+.dashboard-markdown {
+    color: var(--text) !important;
+    font-size: 12px !important;
+}
+
+/* ===== Tablas (Table chart, Pivot y tablas Handlebars) ===== */
+.dashboard-component-chart-holder table,
+table.mts {
+    border-collapse: collapse !important;
+    font-size: 10.5px !important;
+    width: 100%;
+}
+
+.dashboard-component-chart-holder table thead th,
+table.mts th {
+    background: var(--navy) !important;
+    color: #FFF !important;
+    font-weight: 600 !important;
+    padding: 4px 7px !important;
+    text-align: left !important;
+    border: none !important;
+}
+
+.dashboard-component-chart-holder table tbody td,
+table.mts td {
+    padding: 3.5px 7px !important;
+    border-bottom: 1px solid var(--row-line) !important;
+    color: var(--text);
+}
+
+.dashboard-component-chart-holder table tfoot td,
+table.mts tr.total td {
+    font-weight: 700 !important;
+    background: var(--total-bg) !important;
+}
+
+table.mts td.num {
+    text-align: center;
+}
+
+table.mts tr.group td {
+    background: var(--navy-mid) !important;
+    color: #FFF !important;
+    font-weight: 700;
+}
+
+table.mts tr.child td:first-child {
+    padding-left: 20px !important;
+}
+
+.v-pos {
+    color: var(--green);
+    font-weight: 700;
+}
+
+.v-neg {
+    color: var(--red);
+    font-weight: 700;
+}
+
+.subhead {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--navy);
+    text-align: center;
+}
+
+/* ===== Componentes para charts Handlebars ===== */
+.kpi-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.kpi {
+    background: var(--kpi-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    min-width: 120px;
+    flex: 1;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.kpi .icon {
+    font-size: 20px;
+}
+
+.kpi .value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.15;
+}
+
+.kpi .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    color: var(--muted);
+}
+
+.delta {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 9px;
+}
+
+.delta.pos {
+    background: var(--green-light);
+    color: #007a5a;
+}
+
+.delta.neg {
+    background: rgba(229, 57, 53, .12);
+    color: #c00;
+}
+
+.delta.flat {
+    background: #eef1f5;
+    color: var(--muted);
+}
+
+.maint-title {
+    display: inline-block;
+    min-width: 160px;
+    text-align: center;
+    background: var(--sub-gray);
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 6px;
+    padding: 8px 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
+}
+
+.note-card {
+    background: #FFF;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.note-card h3 {
+    display: inline-block;
+    background: var(--navy);
+    color: #FFF;
+    font-size: 14px;
+    padding: 6px 14px;
+    border-radius: 5px;
+    margin: 0 0 8px;
+}
+
+.lbl2 {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--cyan);
+    text-transform: uppercase;
+}
+
+.formula {
+    font-family: 'Courier New', monospace;
+    background: #F0F3F7;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 4px 8px;
+    font-weight: 700;
+    color: var(--navy);
+}
+
+.warn {
+    background: #FFF8E6;
+    border: 1px solid #F0DDA0;
+    color: #6B5A20;
+    border-radius: 6px;
+    padding: 6px 10px;
+}
+
+.status-chip {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 8px;
+    border-radius: 8px;
+    background: #FFF3E0;
+    color: #B05A00;
+
+    :root,
+    .dashboard,
+    body {
+        --navy: #0A2240;
+        --navy-mid: #0D2D55;
+        --cyan: #00B4D8;
+        --cyan-light: rgba(0, 180, 216, .15);
+        --green: #00C896;
+        --green-light: rgba(0, 200, 150, .15);
+        --red: #E53935;
+        --amber: #FB8C00;
+        --bg: #EEF1F5;
+        --card: #FFFFFF;
+        --border: #DCE3EC;
+        --text: #0A2240;
+        --muted: #6B7E96;
+        --pill-bg: #E4E9F0;
+        --kpi-bg: #F7F9FB;
+        --chartbox-bg: #FAFBFC;
+        --row-line: #EEF1F5;
+        --total-bg: #F5F7FA;
+        --blue: #1B6FC9;
+        --sub-gray: #5A6B7D;
+        --font: 'Segoe UI', Arial, sans-serif;
+    }
+
+    /* ===== Base ===== */
+    .dashboard,
+    .dashboard-content,
+    [data-test="dashboard-content-wrapper"] {
+        font-family: var(--font) !important;
+        background: var(--bg) !important;
+        color: var(--text);
+        font-size: 12px;
+    }
+
+    .filter-counts,
+    .superset-button-link,
+    .dashboard-component-tabs>.ant-tabs>.ant-tabs-nav {
+        display: none !important;
+    }
+
+    /* Contenedor centrado: solo max-width (Superset mide este ancho) */
+    .dashboard .grid-container,
+    .dashboard-content .grid-container {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        max-width: min(1400px, calc(100% - 48px)) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* ===== Pill de título de sección (componente Header) ===== */
+    .dashboard-component-header,
+    .dashboard-component-header.background--white,
+    .dashboard-component-header.background--transparent {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        padding: 20px 0 16px !important;
+        margin: 0 !important;
+        font-size: 16px !important;
+        line-height: 1.3 !important;
+    }
+
+    .dashboard-component-header .editable-title,
+    .dashboard-component-header .editable-title input,
+    .dashboard-component-header .editable-title span {
+        background: var(--pill-bg) !important;
+        color: var(--navy) !important;
+        font-family: var(--font) !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        letter-spacing: .2px !important;
+        line-height: 1.3 !important;
+        border: none !important;
+        border-radius: 20px !important;
+        width: max-content !important;
+        max-width: 100%;
+    }
+
+    .dashboard-component-header .editable-title {
+        padding: 9px 26px !important;
+        display: inline-block !important;
+    }
+
+    .dashboard-component-header .editable-title span,
+    .dashboard-component-header .editable-title input {
+        padding: 0 !important;
+    }
+
+    /* ===== TAB = UNA sola tarjeta (capítulo) =====
+   El padding horizontal se simula con box-shadow para no alterar el ancho que mide Superset */
+    .dashboard-component-tabs {
+        background: var(--card) !important;
+        border: none !important;
+        border-radius: 2px !important;
+        box-shadow: 0 0 0 16px var(--card), 0 0 0 17px var(--border) !important;
+        padding: 0 !important;
+        margin: 16px 0 34px !important;
+        overflow: visible !important;
+    }
+
+    /* Todo lo interno de la tab sin fondo ni bordes propios */
+    .dashboard-component-tabs .ant-tabs,
+    .dashboard-component-tabs .ant-tabs-content-holder,
+    .dashboard-component-tabs .ant-tabs-content,
+    .dashboard-component-tabs .ant-tabs-tabpane,
+    .dashboard-component-tabs-content,
+    .dashboard-component-tabs .background--white:not(.dashboard-component-chart-holder) {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        overflow: visible !important;
+    }
+
+    .dashboard-component-tabs .ant-tabs-tabpane,
+    .dashboard-component-tabs-content {
+        padding: 0 !important;
+    }
+
+    /* Filas dentro de la tab: transparentes, solo separación */
+    .dashboard-component-tabs .grid-row {
+        background: transparent !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        margin: 0 0 12px !important;
+    }
+
+    .dashboard-component-tabs .grid-row:last-child {
+        margin-bottom: 0 !important;
+    }
+
+    /* Headers dentro de una tab (ej. "Preventivos" / "Correctivos") más compactos */
+    .dashboard-component-tabs .dashboard-component-header {
+        padding: 6px 0 10px !important;
+    }
+
+    /* Filas sueltas (fuera de tabs y de columnas) siguen como tarjeta */
+    .grid-row:not(.dashboard-component-tabs .grid-row):not(.grid-column .grid-row) {
+        background: var(--card) !important;
+        border-radius: 2px !important;
+        box-shadow: 0 0 0 16px var(--card), 0 0 0 17px var(--border) !important;
+        margin: 16px 0 34px !important;
+    }
+
+    /* ===== Chart box ===== */
+    .dashboard-component-chart-holder {
+        background: var(--chartbox-bg) !important;
+        border: none !important;
+        box-shadow: 0 0 0 1px var(--border) !important;
+        border-radius: 6px !important;
+        font-family: var(--font) !important;
+        overflow: visible !important;
+    }
+
+    .dashboard-component-chart-holder .chart-header,
+    .dashboard-component-chart-holder [data-test="slice-header"] {
+        justify-content: center !important;
+        text-align: center !important;
+    }
+
+    .dashboard-component-chart-holder .header-title,
+    .dashboard-component-chart-holder [data-test="slice-header"] .header-title {
+        color: var(--muted) !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        letter-spacing: .4px !important;
+        text-transform: uppercase !important;
+    }
+
+    /* ===== KPI (Big Number) estilo tarjeta ===== */
+    .dashboard-component-chart-holder:has(.superset-legacy-chart-big-number) {
+        background: var(--kpi-bg) !important;
+        box-shadow: 0 0 0 1px var(--border) !important;
+        border-radius: 8px !important;
+        padding: 8px 12px !important;
+    }
+
+    .superset-legacy-chart-big-number {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        height: 100% !important;
+        padding: 0 !important;
+    }
+
+    .superset-legacy-chart-big-number .header-line {
+        font-family: var(--font) !important;
+        font-size: 32px !important;
+        font-weight: 800 !important;
+        color: var(--navy) !important;
+        line-height: 1.1 !important;
+        height: auto !important;
+        padding: 0 !important;
+    }
+
+    .superset-legacy-chart-big-number .subheader-line,
+    .superset-legacy-chart-big-number .kicker {
+        font-size: 11.5px !important;
+        height: auto !important;
+        color: var(--muted) !important;
+        text-transform: uppercase !important;
+        letter-spacing: .4px !important;
+        padding: 2px 0 0 !important;
+    }
+
+    /* Título del KPI debajo del valor */
+    .chart-slice:has(.superset-legacy-chart-big-number) {
+        display: flex !important;
+        flex-direction: column-reverse !important;
+        justify-content: center !important;
+    }
+
+    .chart-slice:has(.superset-legacy-chart-big-number) .chart-header,
+    .chart-slice:has(.superset-legacy-chart-big-number) [data-test="slice-header"] {
+        margin: 0 !important;
+    }
+
+    .chart-slice:has(.superset-legacy-chart-big-number) .header-title {
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        color: var(--muted) !important;
+        letter-spacing: .4px !important;
+    }
+
+    /* Markdown */
+    .dashboard-markdown {
+        color: var(--text) !important;
+        font-size: 12px !important;
+    }
+
+    /* ===== Tablas (Table chart, Pivot y tablas Handlebars) ===== */
+    .dashboard-component-chart-holder table,
+    table.mts {
+        border-collapse: collapse !important;
+        font-size: 10.5px !important;
+        width: 100%;
+    }
+
+    .dashboard-component-chart-holder table thead th,
+    table.mts th {
+        background: var(--navy) !important;
+        color: #FFF !important;
+        font-weight: 600 !important;
+        padding: 4px 7px !important;
+        text-align: left !important;
+        border: none !important;
+    }
+
+    .dashboard-component-chart-holder table tbody td,
+    table.mts td {
+        padding: 3.5px 7px !important;
+        border-bottom: 1px solid var(--row-line) !important;
+        color: var(--text);
+    }
+
+    .dashboard-component-chart-holder table tfoot td,
+    table.mts tr.total td {
+        font-weight: 700 !important;
+        background: var(--total-bg) !important;
+    }
+
+    table.mts td.num {
+        text-align: center;
+    }
+
+    table.mts tr.group td {
+        background: var(--navy-mid) !important;
+        color: #FFF !important;
+        font-weight: 700;
+    }
+
+    table.mts tr.child td:first-child {
+        padding-left: 20px !important;
+    }
+
+    .v-pos {
+        color: var(--green);
+        font-weight: 700;
+    }
+
+    .v-neg {
+        color: var(--red);
+        font-weight: 700;
+    }
+
+    .subhead {
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--navy);
+        text-align: center;
+    }
+
+    /* ===== Componentes para charts Handlebars ===== */
+    .kpi-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .kpi {
+        background: var(--kpi-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 16px;
+        min-width: 120px;
+        flex: 1;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .kpi .icon {
+        font-size: 20px;
+    }
+
+    .kpi .value {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--navy);
+        line-height: 1.15;
+    }
+
+    .kpi .label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        color: var(--muted);
+    }
+
+    .delta {
+        display: inline-block;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 1px 7px;
+        border-radius: 9px;
+    }
+
+    .delta.pos {
+        background: var(--green-light);
+        color: #007a5a;
+    }
+
+    .delta.neg {
+        background: rgba(229, 57, 53, .12);
+        color: #c00;
+    }
+
+    .delta.flat {
+        background: #eef1f5;
+        color: var(--muted);
+    }
+
+    .maint-title {
+        display: inline-block;
+        min-width: 160px;
+        text-align: center;
+        background: var(--sub-gray);
+        color: #FFF;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 6px;
+        padding: 8px 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
+    }
+
+    .note-card {
+        background: #FFF;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 12px;
+    }
+
+    .note-card h3 {
+        display: inline-block;
+        background: var(--navy);
+        color: #FFF;
+        font-size: 14px;
+        padding: 6px 14px;
+        border-radius: 5px;
+        margin: 0 0 8px;
+    }
+
+    .lbl2 {
+        font-size: 10px;
+        font-weight: 800;
+        color: var(--cyan);
+        text-transform: uppercase;
+    }
+
+    .formula {
+        font-family: 'Courier New', monospace;
+        background: #F0F3F7;
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 4px 8px;
+        font-weight: 700;
+        color: var(--navy);
+    }
+
+    .warn {
+        background: #FFF8E6;
+        border: 1px solid #F0DDA0;
+        color: #6B5A20;
+        border-radius: 6px;
+        padding: 6px 10px;
+    }
+
+    .status-chip {
+        font-size: 9px;
+        font-weight: 700;
+        padding: 1px 8px;
+        border-radius: 8px;
+        background: #FFF3E0;
+        color: #B05A00;
+    }
+
+    @media print {
+        @page {
+            size: 1600px 12500px;
+            margin: 0;
+        }
+
+        *,
+        *::before,
+        *::after {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        header,
+        [data-test="dashboard-header-container"],
+        .superset-6zot85 {
+            display: none !important;
+        }
+
+        .dashboard-component-tabs,
+        .dashboard-component-chart-holder {
+            break-inside: avoid;
+        }
+    }
+}
+
+@media print {
+    @page {
+        size: 1600px 13500px;
+        margin: 0;
+    }
+
+    *,
+    *::before,
+    *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    header,
+    [data-test="dashboard-header-container"],
+    .superset-6zot85 {
+        display: none !important;
+    }
+
+    .dashboard-component-tabs,
+    .dashboard-component-chart-holder {
+        break-inside: avoid;
+    }
+}

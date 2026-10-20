@@ -48,7 +48,7 @@ import {
   SunburstChart,
   CustomChart,
 } from 'echarts/charts';
-import { CanvasRenderer } from 'echarts/renderers';
+import { SVGRenderer } from 'echarts/renderers';
 import {
   TooltipComponent,
   TitleComponent,
@@ -85,7 +85,7 @@ const Styles = styled.div<EchartsStylesProps>`
 
 // eslint-disable-next-line react-hooks/rules-of-hooks -- This is ECharts' use function, not a React hook
 use([
-  CanvasRenderer,
+  SVGRenderer,
   BarChart,
   BoxplotChart,
   CustomChart,
@@ -259,9 +259,9 @@ function Echart(
       // Disable animations during auto-refresh to reduce visual noise
       const animationOverride = isDashboardRefreshing
         ? {
-            animation: false,
-            animationDuration: 0,
-          }
+          animation: false,
+          animationDuration: 0,
+        }
         : {};
 
       const themedEchartOptions = mergeEchartsThemeOverrides(
@@ -271,6 +271,24 @@ function Echart(
         chartOverrides,
         animationOverride,
       );
+
+      themedEchartOptions.label = {
+        ...(themedEchartOptions.label || {}),
+        show: true,
+        backgroundColor: '#ffffff',
+        borderColor: '#d9d9d9',
+        borderWidth: 1,
+        borderRadius: 4, // Bordes ligeramente redondeados
+        padding: [2, 2], // Espaciado interno: [arriba/abajo, izquierda/derecha]
+        color: '#000000', // Color del texto
+        fontSize: 12,
+        fontWeight: 'bold',
+      };
+      themedEchartOptions.labelLayout = {
+        ...(themedEchartOptions.labelLayout || {}),
+        hideOverlap: true, // Oculta las etiquetas si no hay espacio
+        // moveOverlap: 'shiftY', // Intenta moverlas verticalmente. Usa 'shiftX' si el gráfico es vertical
+      };
 
       const notMerge = !isDashboardRefreshing;
       chartRef.current?.dispatchAction({ type: 'hideTip' });
