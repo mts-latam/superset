@@ -39,7 +39,14 @@ export default function createD3NumberFormatter(config: {
   let isInvalid = false;
 
   try {
-    formatFunc = formatLocale(locale ?? DEFAULT_D3_FORMAT).format(formatString);
+    const d3Format = formatLocale(locale ?? DEFAULT_D3_FORMAT).format(
+      formatString,
+    );
+    // SI formats (type "s") use "G" for 10^9; replace it with the more
+    // familiar "B" (billion), consistent with the adaptive formatter.
+    formatFunc = /s$/.test(formatString)
+      ? value => d3Format(value).replace('G', 'B')
+      : d3Format;
   } catch (error) {
     formatFunc = value => `${value} (Invalid format: ${formatString})`;
     isInvalid = true;

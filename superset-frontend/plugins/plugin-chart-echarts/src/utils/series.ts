@@ -352,6 +352,11 @@ function getVerticalPlainLegendLayout({
   };
 }
 
+/**
+ * Whether ECharts legends render the "All" / "Inv" selector buttons.
+ */
+export const SHOW_LEGEND_SELECTORS = false;
+
 export function getLegendLayoutResult({
   availableHeight,
   availableWidth,
@@ -398,7 +403,7 @@ export function getLegendLayoutResult({
       currentMargin: resolvedLegendMargin,
       legendLabels,
       orientation,
-      showSelectors,
+      showSelectors: showSelectors && SHOW_LEGEND_SELECTORS,
       theme,
     });
   }
@@ -408,7 +413,7 @@ export function getLegendLayoutResult({
     availableWidth: resolvedAvailableWidth,
     currentMargin: resolvedLegendMargin,
     legendLabels,
-    showSelectors,
+    showSelectors: showSelectors && SHOW_LEGEND_SELECTORS,
     theme,
   });
 }
@@ -805,7 +810,8 @@ export function getLegendProps(
     show,
     type,
     selected: legendState ?? {},
-    selector: ['all', 'inverse'],
+    // Legend "All"/"Inv" selector buttons are disabled in this fork.
+    selector: SHOW_LEGEND_SELECTORS ? ['all', 'inverse'] : false,
     selectorLabel: {
       fontFamily: theme.fontFamily,
       fontSize: theme.fontSizeSM,

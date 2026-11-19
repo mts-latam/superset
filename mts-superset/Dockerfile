@@ -1,8 +1,8 @@
 FROM mts-superset-base
 
-USER root   
+USER root
 RUN . /app/.venv/bin/activate \
-    && uv pip install -e ".[redshift,postgres]"
+    && uv pip install -e ".[redshift,postgres,fastmcp,duckdb]"
 COPY --chown=superset superset_config.py /app/
 ENV SUPERSET_CONFIG_PATH=/app/superset_config.py
 COPY --chown=superset ./static/* /app/superset/static/assets/images/

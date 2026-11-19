@@ -192,10 +192,10 @@ function BigNumberVis({
 
   const renderHeader = (maxHeight: number) => {
     const { bigNumber, width, colorThresholdFormatters, onContextMenu } = props;
-    // Format bigNumber based on its type: null/undefined -> "No data", number -> format, else -> string
+    // Format bigNumber based on its type: null/undefined -> "--" (Power BI style), number -> format, else -> string
     let text: string;
     if (bigNumber === null || bigNumber === undefined) {
-      text = t('No data');
+      text = '--';
     } else if (typeof bigNumber === 'number') {
       text = headerFormatter(bigNumber);
     } else {
@@ -298,21 +298,12 @@ function BigNumberVis({
   };
 
   const renderSubtitle = (maxHeight: number) => {
-    const { subtitle, width, bigNumber, bigNumberFallback } = props;
+    const { subtitle, width } = props;
     let fontSize = 0;
 
-    const NO_DATA_OR_HASNT_LANDED = t(
-      'No data after filtering or data is NULL for the latest time record',
-    );
-    const NO_DATA = t(
-      'Try applying different filters or ensuring your datasource has data',
-    );
-
-    let text = subtitle;
-    if (bigNumber === null) {
-      text =
-        subtitle || (bigNumberFallback ? NO_DATA : NO_DATA_OR_HASNT_LANDED);
-    }
+    // Null values render "--" in the header without an explanatory
+    // "No data" message; only the user-defined subtitle is shown.
+    const text = subtitle;
 
     if (text) {
       const container = createTemporaryContainer();

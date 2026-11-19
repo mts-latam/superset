@@ -24,21 +24,70 @@ SQLALCHEMY_DATABASE_URI = (
     f"{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_DB}"
 )
 
-SQLALCHEMY_ENGINE_OPTIONS = {
-    "poolclass": NullPool,
-    "pool_pre_ping": False,
-}
+# SQLALCHEMY_ENGINE_OPTIONS = {
+#     "poolclass": NullPool,
+#     "pool_pre_ping": False,
+# }
 
+SQLALCHEMY_ENGINE_OPTIONS = {
+    "pool_size": 10,
+    "max_overflow": 5,
+    "pool_timeout": 60,
+    "pool_pre_ping": True,
+    "pool_recycle": 1800,
+}
 FEATURE_FLAGS = {
     "DATASET_FOLDERS": True,
     "SEMANTIC_LAYERS": True,
     "DASHBOARD_RBAC": True,
-    # 🔥 CRÍTICO: Desactivar virtualización. Si está activo, los charts fuera de la
-    # pantalla no se renderizan en el HTML y el PDF sale incompleto.
     "DASHBOARD_VIRTUALIZATION": False,
     "DASHBOARD_VIRTUALIZATION_DEFER_DATA": False,
     "CSS_TEMPLATES": True,
     "FILTERBAR_CLOSED_BY_DEFAULT": True,
+}
+
+D3_FORMAT = {
+    "decimal": ",",
+    "thousands": ".",
+    "grouping": [3],
+    "currency": ["$", ""],
+}
+
+D3_TIME_FORMAT = {
+    "dateTime": "%A, %e de %B de %Y, %X",
+    "date": "%d/%m/%Y",
+    "time": "%H:%M:%S",
+    "periods": ["a. m.", "p. m."],
+    "days": ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
+    "shortDays": ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
+    "months": [
+        "enero",
+        "febrero",
+        "marzo",
+        "abril",
+        "mayo",
+        "junio",
+        "julio",
+        "agosto",
+        "septiembre",
+        "octubre",
+        "noviembre",
+        "diciembre",
+    ],
+    "shortMonths": [
+        "ene",
+        "feb",
+        "mar",
+        "abr",
+        "may",
+        "jun",
+        "jul",
+        "ago",
+        "sep",
+        "oct",
+        "nov",
+        "dic",
+    ],
 }
 
 REDIS_HOST = os.getenv("REDIS_HOST", "redis")
@@ -66,28 +115,6 @@ THUMBNAIL_CACHE_CONFIG = CACHE_CONFIG
 
 FAB_API_SWAGGER_UI = True
 ENABLE_PROXY_FIX = True
-
-# 🔥 TIEMPOS DE ESPERA PARA EL PDF (Para que Chrome espere a los 60 charts)
-SUPERSET_WEBSERVER_TIMEOUT = 600  # 10 minutos para Gunicorn
-WEBDRIVER_BASEURL = os.getenv("WEBDRIVER_BASEURL", "http://localhost:8088")
-WEBDRIVER_TYPE = "chrome"
-
-# Tiempos de espera específicos para que Selenium/Chrome espere el renderizado
-SCREENSHOT_LOCATE_WAIT = 100  # Tiempo para localizar el dashboard
-SCREENSHOT_LOAD_WAIT = 600  # Tiempo máximo para esperar a que los charts carguen datos
-SCREENSHOT_SELENIUM_WAIT_TIMEOUT = 60  # Tiempo para que el navegador esté listo
-
-WEBDRIVER_OPTION_ARGS = [
-    "--disable-gpu",
-    "--no-sandbox",
-    "--disable-dev-shm-usage",
-    "--disable-extensions",
-    "--disable-background-networking",
-    "--disable-sync",
-    "--hide-scrollbars",
-    "--mute-audio",
-    "--no-first-run",
-]
 
 EXTRA_CATEGORICAL_COLOR_SCHEMES = [
     {
