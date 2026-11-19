@@ -1,15 +1,21 @@
 import os
-from sqlalchemy.pool import NullPool
+
 from flask_caching.backends.rediscache import RedisCache
+from sqlalchemy.pool import NullPool
 
 SECRET_KEY = os.environ.get("SUPERSET_SECRET_KEY")
 APP_NAME = "Informes MTS"
 HTML_SANITIZATION = False
 
-MCP_AUTH_ENABLED = False
-MCP_DEV_USERNAME = "osantos"
+
 MCP_SERVICE_HOST = "0.0.0.0"
-MCP_SERVICE_PORT = 5000
+MCP_SERVICE_PORT = 5008
+MCP_AUTH_ENABLED = True
+MCP_JWT_ALGORITHM = "HS256"
+MCP_JWT_SECRET = os.environ.get("MCP_JWT_SECRET")
+MCP_JWT_ISSUER = "mts-superset"
+MCP_JWT_AUDIENCE = "mts-superset-users"
+MCP_SERVICE_URL = "https://data.mts.com.co"
 
 DATABASE_DIALECT = os.getenv("DATABASE_DIALECT")
 DATABASE_USER = os.getenv("DATABASE_USER")
@@ -23,11 +29,6 @@ SQLALCHEMY_DATABASE_URI = (
     f"{DATABASE_USER}:{DATABASE_PASSWORD}@"
     f"{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_DB}"
 )
-
-# SQLALCHEMY_ENGINE_OPTIONS = {
-#     "poolclass": NullPool,
-#     "pool_pre_ping": False,
-# }
 
 SQLALCHEMY_ENGINE_OPTIONS = {
     "pool_size": 10,
@@ -121,7 +122,7 @@ EXTRA_CATEGORICAL_COLOR_SCHEMES = [
         "id": "mtsCorporativo",
         "label": "MTS Corporativo",
         "description": "Azules y grises del One Page Portafolios MTS",
-        "isDefault": False,
+        "isDefault": True,
         "colors": [
             "#1B6FC9",
             "#6B7E96",
@@ -134,22 +135,22 @@ EXTRA_CATEGORICAL_COLOR_SCHEMES = [
             "#4FC3E0",
         ],
     },
-]
-
-EXTRA_SEQUENTIAL_COLOR_SCHEMES = [
     {
-        "id": "mtsAzules",
-        "label": "MTS Azules (claro → oscuro)",
-        "description": "Escala secuencial de azules",
-        "isDiverging": False,
+        "id": "mtsCorporativoV2",
+        "label": "MTS Corporativo v2",
+        "description": "Línea corporativa MTS con tonos diferenciados",
         "isDefault": False,
-        "colors": ["#C3CCD8", "#8FD3EE", "#7DC0E5", "#4FA3D6", "#2E86C9", "#1B6FC9"],
-    },
-    {
-        "id": "mtsGrisAzul",
-        "label": "MTS Gris–Azul",
-        "description": "Divergente: gris → neutro → azul",
-        "isDiverging": True,
-        "colors": ["#6B7E96", "#A9AFB8", "#EDF1F5", "#7DC0E5", "#1B6FC9"],
+        "colors": [
+            "#1B6FC9",  # Azul MTS
+            "#0B2E59",  # Azul marino
+            "#00B4D8",  # Cian
+            "#6B7E96",  # Gris pizarra
+            "#2A9D8F",  # Verde azulado
+            "#8EC5F0",  # Azul claro
+            "#E09F3E",  # Ámbar
+            "#4B4F9C",  # Índigo
+            "#7FC8B8",  # Verde agua claro
+            "#B8C2CF",  # Gris claro
+        ],
     },
 ]
