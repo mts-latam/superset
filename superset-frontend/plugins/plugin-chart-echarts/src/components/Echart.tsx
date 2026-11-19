@@ -367,7 +367,7 @@ const applyValueLabels = (options: any) => {
         borderRadius: 4,
         padding: [3, 6],
         color: getContrastTextColor(seriesColor),
-        fontSize: 11,
+        fontSize: 10,
         fontWeight: 'bold',
       },
       // No ocultar etiquetas aunque se solapen
