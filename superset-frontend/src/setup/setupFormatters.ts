@@ -141,7 +141,7 @@ function registerLocalizedSmartNumberFormatters(
     if (abs >= 1e12) return `${oneDecimalFormat(value / 1e12)}T`;
     if (abs >= 1e9) return `${oneDecimalFormat(value / 1e9)}MM`;
     if (abs >= 1e6) return `${oneDecimalFormat(value / 1e6)}M`;
-    if (abs >= 1e3) return `${oneDecimalFormat(value / 1e3)}k`;
+    if (abs >= 1e3) return `${oneDecimalFormat(value / 1e3)}mil`;
     if (abs >= 1) return twoDecimalFormat(value);
     if (abs >= 0.001) return fourDecimalFormat(value);
     if (abs > 0.000001) return `${siFormat(value * 1e6)}µ`;
