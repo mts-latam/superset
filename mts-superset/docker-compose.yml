@@ -32,6 +32,17 @@ services:
     depends_on:
       superset-init:
         condition: service_completed_successfully
+
+  mcp-server:
+    build: .
+    ports:
+      - 5008:5008
+    env_file:
+      - .env
+    entrypoint: "/app/docker/docker-bootstrap.sh mcp"
+    depends_on:
+      superset:
+        condition: service_healthy
 volumes:
   redis_data:
   db_home:
